@@ -1,5 +1,12 @@
 import React from "react";
+import { IoMdStar } from "react-icons/io";
 import { LuPencil } from "react-icons/lu";
+import {
+  MdOutlineDrafts,
+  MdOutlineKeyboardArrowDown,
+  MdOutlineWatchLater,
+} from "react-icons/md";
+import { TbSend2 } from "react-icons/tb";
 
 const sidebarItems = [
   {
@@ -7,20 +14,24 @@ const sidebarItems = [
     text: "Inbox",
   },
   {
-    icon: <LuPencil size={"24px"} />,
+    icon: <IoMdStar size={"24px"} />,
     text: "Starred",
   },
   {
-    icon: <LuPencil size={"24px"} />,
+    icon: <MdOutlineWatchLater size={"24px"} />,
     text: "Snoozed",
   },
   {
-    icon: <LuPencil size={"24px"} />,
+    icon: <TbSend2 size={"24px"} />,
     text: "Sent",
   },
   {
-    icon: <LuPencil size={"24px"} />,
+    icon: <MdOutlineDrafts size={"24px"} />,
     text: "Drafts",
+  },
+  {
+    icon: <MdOutlineKeyboardArrowDown size={"24px"} />,
+    text: "More",
   },
 ];
 
@@ -36,9 +47,12 @@ const Sidebar = () => {
       <div className="text-gray-500 ">
         {sidebarItems.map((item, index) => {
           return (
-            <div className="flex items-center gap-4 pl-6 py-1 rounded-r-full hover:cursor-pointer my-2 hover:bg-gray-200">
-              <LuPencil size={"24px"} />
-              <p>{item.text}</p>
+            <div
+              key={index}
+              className="flex items-center gap-4 pl-6 py-1 rounded-r-full hover:cursor-pointer my-2 hover:bg-gray-200"
+            >
+              {item?.icon}
+              <p>{item?.text}</p>
             </div>
           );
         })}
