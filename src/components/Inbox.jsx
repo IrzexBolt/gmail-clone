@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { MdCropSquare } from "react-icons/md";
 import { FaCaretDown, FaUserFriends } from "react-icons/fa";
+import { IoMdRefresh, IoMdMore } from "react-icons/io";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdInbox,
+} from "react-icons/md";
 import { GoTag } from "react-icons/go";
-import { IoMdMore, IoMdRefresh } from "react-icons/io";
-import { MdCropSquare, MdInbox } from "react-icons/md";
+import Messages from "./Messages";
+import { useSelector } from "react-redux";
 
 const mailType = [
   {
@@ -21,6 +28,8 @@ const mailType = [
 
 const Inbox = () => {
   const [mailTypeSelected, setMailTypeSelected] = useState(0);
+  const { emails } = useSelector((store) => store.app);
+
   return (
     <div className="flex-1 bg-white rounded-xl mx-5">
       <div className="flex items-center justify-between px-4">
@@ -36,26 +45,42 @@ const Inbox = () => {
             <IoMdMore size={"20px"} />
           </div>
         </div>
+        <div className="flex items-center gap-2">
+          <p className="text-sm text-gray-500">1-50 of {emails?.length}</p>
+          <button
+            disabled={false}
+            className="hover:rounded-full hover:bg-gray-100"
+          >
+            <MdKeyboardArrowLeft size={"24px"} />
+          </button>
+          <button
+            disabled={false}
+            className="hover:rounded-full hover:bg-gray-100"
+          >
+            <MdKeyboardArrowRight size={"24px"} />
+          </button>
+        </div>
       </div>
       <div className="h-[90vh] overflow-y-auto">
         <div className="flex items-center gap-1">
-          {mailType.map((item, index) => {
-            return (
-              <button
-                key={index}
-                className={`${
-                  mailTypeSelected == index
-                    ? "border-b-4 border-b-blue-600 text-blue-600"
-                    : "border-b-4 border-b-transparent"
-                } flex items-center p-4 w-52 hover:bg-100`}
-                onClick={() => setMailTypeSelected(index)}
-              >
-                {item?.icon}
-                <span>{item?.text}</span>
-              </button>
-            );
-          })}
+          {mailType.map((item, index) => (
+            <button
+              key={index}
+              className={`flex items-center gap-5 p-4 ${
+                mailTypeSelected === index
+                  ? "border-b-4 border-b-blue-600 text-blue-600"
+                  : "border-b-4 border-b-transparent"
+              } w-52 hover:bg-gray-100`}
+              onClick={() => {
+                setMailTypeSelected(index);
+              }}
+            >
+              {item.icon}
+              <span>{item.text}</span>
+            </button>
+          ))}
         </div>
+        <Messages />
       </div>
     </div>
   );
